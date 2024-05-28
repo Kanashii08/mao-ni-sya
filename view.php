@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,6 +43,12 @@
 <div class="container">
   <h1>View School</h1>
 		
+  <!-- Search form -->
+  <form action="" method="GET" class="form-inline mb-3">
+    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="query">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+
   <?php
 	$servername = "localhost";
 	$username = "root";
@@ -53,7 +62,14 @@
 	  die("Connection failed: " . $conn->connect_error);
 	}
 
-	$sql = "SELECT * FROM stud_info";
+	// Check if a search query is submitted
+	if(isset($_GET['query'])) {
+		$search_query = $_GET['query'];
+		$sql = "SELECT * FROM stud_info WHERE IDno LIKE '%$search_query%' OR FName LIKE '%$search_query%' OR LName LIKE '%$search_query%'";
+	} else {
+		$sql = "SELECT * FROM stud_info";
+	}
+
 	$result = $conn->query($sql);
 
 	if ($result->num_rows > 0) {
@@ -84,5 +100,3 @@
 
 </body>
 </html>
-
-
