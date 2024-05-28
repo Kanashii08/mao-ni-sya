@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,8 +36,7 @@
       </li>
     </ul>
     <?php
-    // Start the session
-    session_start();
+    
 
     // Check if user is logged in
     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
