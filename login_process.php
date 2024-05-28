@@ -22,21 +22,22 @@ $sql = "SELECT * FROM signlog WHERE username = '$username' AND password = '$pass
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-    // Username and password match found, redirect accordingly
-    $row = $result->fetch_assoc();
+    // Username and password match found, set the session variables
+    $_SESSION['loggedin'] = true;
+    $_SESSION['username'] = $username;
+    
+    // Redirect to appropriate page
     if ($username === "admin") {
-        $_SESSION['username'] = $username;
         header("Location: index_1.php"); // Redirect to admin dashboard
     } else {
-        $_SESSION['username'] = $username;
         header("Location: user.php"); // Redirect to user dashboard
     }
     exit(); // Ensure no further code execution after redirection
 } else {
     // Username and password match not found, display error message
     $_SESSION['login_error'] = "Invalid username or password";
-    echo "<script>alert('Invalid username or password'); window.location.href = 'login.php';</script>";
-    exit(); // Ensure no further code execution after displaying the message
+    header("Location: login.php");
+    exit(); // Ensure no further code execution after redirection
 }
 
 // Close database connection
